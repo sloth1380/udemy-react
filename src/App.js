@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 const App = () => {
   const profiles = [
-    { name: "Taro", age: "10"},
-    { name: "next", age: "10111"},
-    { name: "no name", age: "1"}
+    { name: "Taro", age: 10},
+    { name: "next", age: 10111},
+    { name: "no name"}
   ]
   return(
     <React.Fragment>
@@ -17,12 +18,17 @@ const App = () => {
   )
 }
 
-const User = (props) => {
-  return <div>{props.name}! age：{props.age}</div>
+const User = (props, index) => {
+  return <div key={index}>{props.name}! age：{props.age}</div>
 }
 
-User.defaultProps = {
-  age: 1
+User.propTypes = {
+  name: PropTypes.string.isRequired,
+  age: PropTypes.number,
 }
+
+//User.defaultProps = {
+//  age: 1
+//}
 
 export default App;
