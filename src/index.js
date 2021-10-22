@@ -8,12 +8,14 @@ import { Provider } from 'react-redux';
 import reducers from './reducers';
 import thunk from 'redux-thunk';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import EventsIndex from './compornents/events_index';
 import EventsNew from './compornents/events_new';
 
-
-const store = createStore(reducers, applyMiddleware(thunk))
+const enhancer = process.env.NODE_ENV === 'development' ?
+  composeWithDevTools(applyMiddleware(thunk)) : applyMiddleware(thunk);
+const store = createStore(reducers, enhancer)
 
 ReactDOM.render(
   <Provider store={store} >
