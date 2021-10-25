@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 
-import { getEvent, deleteEvent, putEvent } from '../actions';
+import { readEvent, deleteEvent, putEvent } from '../actions';
 
 class EventsShow extends Component {
     constructor(props) {
@@ -13,9 +13,14 @@ class EventsShow extends Component {
         this.onDeleteClick = this.onDeleteClick.bind(this)
     }
 
+    componentDidMount() {
+        const { id } = this.props.match.params
+        if (id) this.props.readEvent(id)
+        console.log(id)
+    }
+
     renderField(field) {
         const { input, label, type, meta: { touched, error } } = field
-
         return(
             <div>
                 <input {...input} placeholder={label} type={type}/>
@@ -55,7 +60,6 @@ class EventsShow extends Component {
     }
 }
 
-const mapDispatchToProps = ({ deleteEvent })
 const validate = values => {
     const errors = {}
 
@@ -64,7 +68,13 @@ const validate = values => {
 
     return errors
 }
+const mapStateToProps = (state, ownProps) => {
+    const event = state.events[ownProps.match.params.id]
+    return { initialValues: event, event }
+}
 
-export default connect(null, mapDispatchToProps)(
-    reduxForm({ validate, form: 'eventShowForm' })(EventsShow)
+const mapDispatchToProps = ({ deleteEvent, readEvent })
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+    reduxForm({ validate, form: 'eventShowForm', enableReinitialize: true })(EventsShow)
 )
