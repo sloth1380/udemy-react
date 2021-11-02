@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -19,16 +20,18 @@ const enhancer = process.env.NODE_ENV === 'development' ?
 const store = createStore(reducers, enhancer)
 
 ReactDOM.render(
-  <Provider store={store} >
-    <BrowserRouter>
-      <Switch>
-        <Route path="/events/new" component={EventsNew} />
-        <Route path="/events/:id" component={EventsShow} />
-        <Route exact path="/" component={EventsIndex} />
-        <Route exact path="/event" component={EventsIndex} />
-      </Switch>
-    </BrowserRouter>
-  </Provider>,
+    <MuiThemeProvider>
+      <Provider store={store} >
+        <BrowserRouter>
+          <Switch>
+            <Route path="/events/new" component={EventsNew} />
+            <Route path="/events/:id" component={EventsShow} />
+            <Route exact path="/" component={EventsIndex} />
+            <Route exact path="/event" component={EventsIndex} />
+          </Switch>
+        </BrowserRouter>
+      </Provider>
+    </MuiThemeProvider>,
   document.getElementById('root')
 );
 
